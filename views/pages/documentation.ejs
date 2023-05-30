@@ -1,0 +1,250 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Documentation</title>
+    <meta name="description" content="Documentation">
+    <meta name="author" content="Carlos Yllobre">
+
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&family=Open+Sans:ital,wght@0,400;0,700;1,600&display=swap"
+        rel="stylesheet">
+
+    <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js"
+        integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP"
+        crossorigin="anonymous"></script>
+
+
+</head>
+
+<body>
+
+    <div class="navbar clear nav-top">
+        <div class="row content">
+            <a href="#"><img class="logo" src="/public/logo.png"></a>
+            <a class="right" style="text-decoration: underline;" href="/terms-and-conditions"><i class="fas fa-book"></i>&nbsp;
+                RBP Terms & Conditions</a>
+            <a class="right" href="mailto:sumo@roofingbusinesspartner.com" target="_blank"><i class="fas fa-paper-plane"></i>&nbsp;
+                sumo@roofingbusinesspartner.com</a>
+        </div>
+    </div>
+
+    <div class="container clear">
+        <div class="row wrapper">
+
+            <div class="sidepanel">
+
+                <a class="title" href="#">Introduction</a>
+
+                <!-- <a class="section" href="#">Supported Versions</a> -->
+                <!-- <a class="section" href="#">About this App</a> -->
+                <a class="section" href="#technology">Technology</a>
+
+                <div class="divider left"></div>
+
+                <!-- <a class="title" href="#gettingstarted">Getting Started</a> -->
+
+                <a class="section" href="#installingapp">Installing the App</a>
+                <!-- <a class="section" href="#openingapp">Opening the App</a> -->
+
+                <div class="divider left"></div>
+
+                <a class="title" href="#basicfeatures">Basic Features</a>
+
+                <a class="section" href="#basicfeatures">Connecting</a>
+                <a class="section" href="#deal-sync">Deal Sync</a>
+                <a class="section" href="#generate-quote">Generate Quotations</a>
+                <a class="section" href="#review-feature">Review & Sign a Quote</a>
+
+                <div class="divider left"></div>
+
+                <a class="title" href="#advanced">Advanced Features</a>
+
+                <a class="section" href="#more-actions">More Actions</a>
+                <a class="section" href="#settings-tab">Deal Settings</a>
+                <!-- <a class="section" href="#featurec">Feature C</a>
+                <a class="sub-section" href="#featurec1">Feature C.1</a>
+                <a class="sub-section" href="#featurec2">Feature C.2</a>
+                <a class="section" href="#featured">Feature D</a>
+
+                <div class="divider left"></div>
+
+                <a class="title" href="#accesibility">Accesibility</a>
+
+                <div class="divider left"></div>
+
+                <a class="title" href="#moreinfo">More Info</a> -->
+
+                <div class="space double"></div>
+
+            </div>
+
+            <div class="right-col">
+
+
+
+                <h1>Introduction</h1>
+
+                <p>
+                    Our application integrates the HubSpot CRM with the Sumoquote application. All you need to do is to
+                    create a deal in HubSpot and connect your deal with SumoQuote using open authentication. Once it is
+                    connected, it takes care to sync each move you take for writing quotations in SumoQuote. It gives
+                    you a built-in feature to manage your reports in SumoQuote. Or if you try to do anything relevant
+                    e.g. Quote title, introduction or any other custom page, it will automatically sync your changes
+                    directly in HubSpot out of the box. It also gives you the option to view real-time signed quotations
+                    download reports in PDF and other items details that were added in the quotation. The application
+                    also has options to manage settings for connectivity, e.g. Sync everything between the two systems
+                    out of the box or disconnect the link between two applications.
+                </p>
+
+                <!-- <h2>Supported Versions:</h2>
+
+                <p><b>App Version 1.0.0.</b></p> -->
+
+
+                <h2>Technology</h2>
+
+                <p>Node.js / Express.js / MongoDB </p>
+
+                <!-- <p id="gettingstarted"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                    incididunt ut labore</p> -->
+
+                <div class="divider" style="width:24%; margin:30px 0;"></div>
+
+                <h1>Getting Started</h1>
+
+                <p id="installingapp">
+
+                </p>
+
+
+
+                <h2>Install the App</h2>
+
+                <p>Just click on Install SumoQuote button to install our application with your HubSpot Account</p>
+
+
+
+
+                <p id="basicfeatures">Following are the basic features.</p>
+
+
+                <div class="divider" style="width:24%; margin:30px 0;"></div>
+
+
+                <h1>Basic Features</h1>
+
+                <h2>Connecting to SumoQuote</h2>
+
+                <p id="basicfeatures">
+                    Click on the connect button to establish connection between your HubSpot & SumoQuote accounts
+                <div class="img-box">
+                    <img src="/public/2 - connect sumoqoute.png" alt="">
+                </div>
+                <div class="img-box">
+                    <img src="/public/3  - connect button.png" alt="">
+                </div>
+                </p>
+
+                <h2>Deal Data Syncronization</h2>
+
+                <p id="deal-sync">
+                    Once your SumoQuote account gets connected, the system syncs your deal record with SumoQuote by
+                    creating a project in SumoQuote
+                    <br><br>
+
+                    <br id="feature3">
+                <div class="img-box">
+                    <img src="/public/5 - if one or more qoute project is already created for that deal in sumoqoute.PNG"
+                        alt="">
+                </div>
+
+                </p>
+
+                <h2 id="generate-quote">Generate Quotations</h2>
+
+                <p>
+                    Once your accounts are connected through our system, you may generate quotations directly through
+                    our HubSpot integration portal or directly through Sumoqoute account, our system will sync your data
+                    out of the box
+                </p>
+                <div class="img-box">
+                    <img src="/public/6 - generate report directly from sumoqoute same project.PNG" alt="">
+                </div>
+                <div class="img-box">
+                    <img src="/public/6 - generate report in sumoqoute through hubspot.PNG">
+                </div>
+                <div class="img-box">
+                    <img src="/public/7 - changes syncing with each change in sumoqoute.PNG">
+                </div>
+
+
+                <h2 id="review-feature">Review and Sign Quotations</h2>
+
+                <p>
+                    Once you have prepated the quotation, you may send it for signing, and it will update HubSpot
+                    accordingly.
+                </p>
+                <div class="img-box">
+                    <img src="/public/8 - click review on either through hubspot or sumoqoute.png" alt="">
+                </div>
+                <div class="img-box">
+                    <img src="/public/9 - sign the qoutation.PNG">
+                </div>
+                <div class="img-box">
+                    <img src="/public/10 - signed qoute.png">
+                </div>
+                <div class="img-box">
+                    <img src="/public/11 - reflected information on hubspot.PNG">
+                </div>
+
+
+                <h2 id="more-actions">More actions from HubSpot</h2>
+
+                <h4>View / Edit</h4>
+                <p>
+                    If you are on HubSpot, and its connected to Sumoquote, you can always view/edit its connected
+                    dealing's quotations
+                </p>
+                <div class="img-box">
+                    <img src="/public/edit-view.png" alt="">
+                </div>
+
+                <h4>Download / View Reports</h4>
+                <p>
+                    It also gives you the option to view real-time signed quotations
+                    download reports in PDF and other items details that were added in the quotation
+                </p>
+                <div class="img-box">
+                    <img src="/public/13 - download options from hubspot.PNG" alt="">
+                </div>
+
+
+
+                <h2 id="settings-tab">Deal Settings</h2>
+
+                <p>
+                    The application
+                    also has options to manage settings for connectivity, e.g. Sync everything between the two systems
+                    out of the box or disconnect the link between two applications.
+                </p>
+                <div class="img-box">
+                    <img src="/public/14 - settings page.PNG" alt="">
+                </div>
+
+                <div class="divider" style="width:24%; margin:30px 0;"></div>
+
+            </div>
+
+
+        </div>
+
+
+</body>
+
+</html>

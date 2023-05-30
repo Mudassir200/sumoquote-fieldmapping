@@ -1,0 +1,407 @@
+/connectsumo ejs
+ <form action="/connect-sumoquote" method="post">
+          <h1>Connect to SumoQuote</h1>
+
+          <P>Do not refresh this page</P>
+  
+          <!-- EMAIL FIELD -->
+          <div class="form-field">
+            <section>
+                <label for="email" class="label--required">CONNECTION ID</label>
+                  <input id="text" required type="email" name="id" readonly value=<%= appId %> />
+              </section>
+          </div>
+          
+          <div class="form-field">
+            <section>
+              <label id="api-key" for="field" class="label--required">API KEY</label>
+                <input id="field" required type="text" placeholder="API KEY" name="sumoapikey" />
+            </section>
+        </div>
+  
+          <!-- BUTTONS -->
+          <div class="form-buttons">
+              <button type="submit" class="a-btn--filled">Connect</button>
+          </div>
+  
+      </form>
+
+
+      router.get("/webhook/deal", async (req, res) => {
+
+        try {
+          const associatedObjectId = req.query.associatedObjectId;
+          const config = {
+            method: 'get',
+            url: `https://api.sumoquote.com/v1/Project?q=${associatedObjectId}`,
+            headers: {
+              'sq-api-key': process.env.SUMO_KEY
+            }
+          };
+      
+          const { data } = await axios(config)
+          /*
+          {
+           Data: [
+             {
+               AccountId: 'b4d261d7-366b-418c-8939-7c2984c8050c',
+               Id: '51593dac-cb1d-45be-8e46-38a465411c1f',
+               ProjectIdDisplay: '4155653837',
+               ProjectIdSystemGenerated: 'False',
+               CustomerFirstName: 'dsdsdsd',
+               CustomerLastName: '',
+               PostalCode: null,
+               City: null,
+               AddressLine1: 'sdsdfsdfsds',
+               EmailAddress: null,
+               PhoneNumber: null,
+               IntakeDate: '2022-01-24T00:00:00Z',
+               NextCallback: null,
+               WonDate: null,
+               LostDate: null,
+               Estimate: 0,
+               Salesperson: 'Moses Aondofa',
+               SalespersonId: '63c968d8-8993-453f-8bcb-52c7557a41f3',
+               PrimaryContact: null,
+               PrimaryContactId: null,
+               ProjectState: 'Open',
+               IsSample: false,
+               PrimaryImage: null,
+               ProjectIntegrations: [Object],
+               PortalId: null,
+               PortalEnabled: false,
+               PortalInvitationsActive: false,
+               MetaData: []
+             }
+           ],
+           Continuation: null
+         }
+         */
+
+
+      
+          return res.json({
+            "results": [
+              {
+                "objectId": 245,
+                "title": "Kapili Website Relaunch & Ultimate Hubsport Buildout",
+      
+                "created": "2016-09-15",
+                "priority": "HIGH",
+                "project": "API",
+                "description": "A simple test for our sumoquote API",
+                "status": "In Progress",
+                "updated": "2016-09-28",
+                "properties": [
+                  {
+                    "label": "Status",
+                    "dataType": "STATUS",
+                    "name": "status",
+                    "option": [
+                      {
+                        "type": "SUCCESS",
+                        "label": "Won",
+                        "name": "won"
+                      },
+                      {
+                        "type": "DANGER",
+                        "label": "Lost",
+                        "name": "Lost"
+                      }
+                    ],
+                    "value": "Won",
+                    optionType: "SUCCESS"
+                  },
+                  {
+                    "label": "Created by",
+                    "dataType": "EMAIL",
+                    "value": "mo@testmail.com"
+                  },
+                  {
+                    "label": "Client",
+                    "dataType": "EMAIL",
+                    "value": "anothermo@testmail.com"
+                  },
+                  {
+                    "label": "Created On",
+                    "dataType": "DATE",
+                    "value": "2022-01-17"
+                  },
+                  {
+                    "label": "Due Date",
+                    "dataType": "DATE",
+                    "value": "2022-02-17"
+                  },
+                  {
+                    "label": "Sent On",
+                    "dataType": "DATE",
+                    "value": "2022-01-17"
+                  },
+                  {
+                    "label": "Viewed on",
+                    "dataType": "DATE",
+                    "value": "2022-01-19"
+                  },
+                  {
+                    "label": "Total",
+                    "dataType": "CURRENCY",
+                    "value": 260656.00,
+                    "currencyCode": "USD"
+                  },
+                ],
+                "actions": [
+                  {
+                    "type": "IFRAME",
+                    "width": 890,
+                    "height": 748,
+                    "uri": "https://example.com/edit-iframe-contents",
+                    "label": "Edit",
+                    "associatedObjectProperties": []
+                  },
+                  {
+                    "type": "IFRAME",
+                    "width": 890,
+                    "height": 748,
+                    "uri": "https://example.com/reassign-iframe-contents",
+                    "label": "Reassign",
+                    "associatedObjectProperties": []
+                  },
+                  {
+                    "type": "ACTION_HOOK",
+                    "httpMethod": "PUT",
+                    "associatedObjectProperties": [],
+                    "uri": "https://example.com/tickets/245/resolve",
+                    "label": "Resolve"
+                  },
+                  {
+                    "type": "CONFIRMATION_ACTION_HOOK",
+                    "confirmationMessage": "Are you sure you want to delete this ticket?",
+                    "confirmButtonText": "Yes",
+                    "cancelButtonText": "No",
+                    "httpMethod": "DELETE",
+                    "associatedObjectProperties": [
+                      "protected_account"
+                    ],
+                    "uri": "https://example.com/tickets/245",
+                    "label": "Delete"
+                  }
+                ]
+              },
+            ],
+            "settingsAction": {
+              "type": "IFRAME",
+              "width": 890,
+              "height": 748,
+              "uri": "https://example.com/settings-iframe-contents",
+              "label": "Settings"
+            },
+            "primaryAction": {
+              "type": "IFRAME",
+              "width": 890,
+              "height": 748,
+              "uri": "https://app.sumoquote.com/project/4155653837",
+              "label": "Create Report"
+            }
+          });
+        }
+        catch (err) {
+
+        }
+      });
+
+<!-- webhook platform test -->
+router.get("/webhook/platform", (req, res) => {
+
+    const portalId = req.params.portalId
+  
+    try {
+  
+      const config = {
+        method: 'get',
+        url: 'https://api.sumoquote.com/v1/Project?q=bh@hubspot.com',
+        headers: {
+          'sq-api-key': process.env.SUMO_KEY
+        }
+      };
+  
+      axios(config)
+        .then(function (response) {
+
+        })
+        .catch(function (error) {
+
+        });
+  
+      return res.json({
+        "results": [
+          {
+            "objectId": 245,
+            "title": "Kapili Website Relaunch & Ultimate Hubsport Buildout",
+  
+            "created": "2016-09-15",
+            "priority": "HIGH",
+            "project": "API",
+            "description": "A simple test for our sumoquote API",
+            "status": "In Progress",
+            "updated": "2016-09-28",
+            "properties": [
+              {
+                "label": "Status",
+                "dataType": "STATUS",
+                "name": "status",
+                "option": [
+                  {
+                    "type": "SUCCESS",
+                    "label": "Won",
+                    "name": "won"
+                  },
+                  {
+                    "type": "DANGER",
+                    "label": "Lost",
+                    "name": "Lost"
+                  }
+                ],
+                "value": "Won",
+                optionType: "SUCCESS"
+              },
+              {
+                "label": "Created by",
+                "dataType": "EMAIL",
+                "value": "mo@testmail.com"
+              },
+              {
+                "label": "Client",
+                "dataType": "EMAIL",
+                "value": "anothermo@testmail.com"
+              },
+              {
+                "label": "Created On",
+                "dataType": "DATE",
+                "value": "2022-01-17"
+              },
+              {
+                "label": "Due Date",
+                "dataType": "DATE",
+                "value": "2022-02-17"
+              },
+              {
+                "label": "Sent On",
+                "dataType": "DATE",
+                "value": "2022-01-17"
+              },
+              {
+                "label": "Viewed on",
+                "dataType": "DATE",
+                "value": "2022-01-19"
+              },
+              {
+                "label": "Total",
+                "dataType": "CURRENCY",
+                "value": 260656.00,
+                "currencyCode": "USD"
+              },
+            ],
+            "actions": [
+              {
+                "type": "IFRAME",
+                "width": 890,
+                "height": 748,
+                "uri": "https://example.com/edit-iframe-contents",
+                "label": "Edit",
+                "associatedObjectProperties": []
+              },
+              {
+                "type": "IFRAME",
+                "width": 890,
+                "height": 748,
+                "uri": "https://example.com/reassign-iframe-contents",
+                "label": "Reassign",
+                "associatedObjectProperties": []
+              },
+              {
+                "type": "ACTION_HOOK",
+                "httpMethod": "PUT",
+                "associatedObjectProperties": [],
+                "uri": "https://example.com/tickets/245/resolve",
+                "label": "Resolve"
+              },
+              {
+                "type": "CONFIRMATION_ACTION_HOOK",
+                "confirmationMessage": "Are you sure you want to delete this ticket?",
+                "confirmButtonText": "Yes",
+                "cancelButtonText": "No",
+                "httpMethod": "DELETE",
+                "associatedObjectProperties": [
+                  "protected_account"
+                ],
+                "uri": "https://example.com/tickets/245",
+                "label": "Delete"
+              }
+            ]
+          },
+        ],
+        "settingsAction": {
+          "type": "IFRAME",
+          "width": 890,
+          "height": 748,
+          "uri": "https://example.com/settings-iframe-contents",
+          "label": "Settings"
+        },
+        "primaryAction": {
+          "type": "IFRAME",
+          "width": 890,
+          "height": 748,
+          "uri": "https://example.com/create-iframe-contents",
+          "label": "Create Ticket"
+        }
+      });
+    }
+    catch (err) {
+
+    }
+  });
+
+  
+/connect sumoquote
+app.post('/connect-sumoquote', async (req, res) => {
+    try {
+      const { sumoapikey, id } = (req.body);
+      const user = await User.findById(id);
+      const token = getSumoquoteAccessToken(user)
+      if (!user) {
+        return res.send('App connection is broken, contact the developer')
+      }
+      const sumoquoteWebhookId = new mongoose.Types.ObjectId();
+      const axios = require('axios');
+      let data = JSON.stringify([
+        {
+          "hookEvent": "Report_Signed",
+          "hookUrl": `${process.env.HOST}/webhook/signatory-signed/${sumoquoteWebhookId}`,
+          "isZapHook": false
+        }
+      ]);
+  
+      let config = {
+        method: 'post',
+        url: 'https://api.sumoquote.com/v1/WebHook/batch',
+        headers: {
+          'sq-api-key': sumoapikey,
+          'Content-Type': 'application/json'
+        },
+        data: data
+      };
+  
+      await axios(config)
+  
+      user.sumoquoteAPIKEY = sumoapikey;
+      user.sumoquoteWebhookId = sumoquoteWebhookId;
+      await user.save()
+  
+      res.send(`
+      <h2>Linked to Sumoquote successfully!!!</h2>
+      `);
+    } catch (e) {
+
+      res.send('An error occured, go back and try again')
+    }
+  });

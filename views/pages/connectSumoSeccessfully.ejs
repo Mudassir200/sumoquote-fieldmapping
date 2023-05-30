@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <title>RBP</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /* background: rgb(189, 250, 202); */
+        }
+        main{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+    </style>
+</head>
+<body>
+
+<main>
+    <h1 class="text-success  font-weight-bold">Linked to Sumoquote successfully!</h1>
+    <h2 class="text-info  font-weight-bold">HubSpot & SumoQuote Field Mapping Configuration is required Please Wait...</h2>
+</main>
+<script>
+     $( document ).ready(function() {
+        setTimeout(function () {
+            window.location.href = "<%= fieldMappingUrl %>"
+        }, 2000);
+    });
+</script>
+</body>
+</html>

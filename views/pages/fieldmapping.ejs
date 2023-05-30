@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+
+
+    <title>Create Signature By Template</title>
+    <style>
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #E5E5E5;
+        }
+
+        .card {
+            box-shadow: 0px 4px 10px 5px #10172A08;
+            border: 1px solid #FFFFFF;
+            border-radius: 10px;
+            margin-top: 70px;
+        }
+
+        .card,
+        .card-header {
+            background-color: #fff;
+            color: #10172A;
+        }
+
+        .header-title h3 {
+            margin: 0;
+        }
+
+        .w-600 {
+            font-weight: 600;
+        }
+
+        .c-0B62B1 {
+            color: #0B62B1;
+        }
+
+        .b-0B62B1 {
+            background-color: #0B62B1;
+        }
+
+        .font-18 {
+            font-size: 18px;
+        }
+
+        .font-22 {
+            font-size: 18px;
+        }
+
+        .pl-25 {
+            padding-left: 20px !important;
+            padding-right: 20px !important;
+        }
+
+        .p-4 {
+            padding: 2rem !important;
+        }
+
+        .pl-1 {
+            padding-left: 10px !important;
+        }
+
+        .styled__TabActiveBorder {
+            position: absolute;
+            bottom: 0px;
+            height: 3px;
+            width: 120px;
+            left: 19px;
+        }
+
+        .template-list li {
+            padding-top: 12px;
+            padding-bottom: 12px;
+        }
+
+        .template-list li a {
+            color: #10172A;
+        }
+
+        .template-list li:hover,
+        .template-list li:hover a {
+            color: #0B62B1;
+            background-color: #F2F2F2;
+            font-weight: 600;
+        }
+
+        .details-title {
+            font-weight: 400;
+            font-size: 22px !important;
+            line-height: 22px;
+            align-items: center;
+            text-transform: uppercase;
+        }
+
+        input,
+        select {
+            background-color: #F3F4F4;
+        }
+
+        hr {
+            margin-top: 10px;
+            margin-bottom: 0;
+            background: #4A5470;
+            opacity: 0.2;
+            box-shadow: 0px 0px 20px rgba(16, 23, 42, 0.1);
+            border-radius: 10px 10px 0px 0px;
+        }
+
+        .token-details {
+            padding-left: 0px !important;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        #app li,
+        #app a,
+        #app-tab a {
+            color: #10172A;
+        }
+
+        #app .active {
+            color: #0B62B1;
+            font-weight: 600;
+            border-bottom: 2px solid #0B62B1;
+        }
+
+        #app-tab li:first-child {
+            margin-left: 0px !important;
+        }
+
+        #app-tab a {
+            color: #10172A;
+            border-radius: 20px;
+            border: 2px dashed #10172A;
+        }
+
+        #app-tab .active {
+            outline: none;
+            color: #0B62B1;
+            font-weight: 600;
+            border: 2px dashed #0B62B1;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        .card-footer{
+            padding: 20px;
+            border-top: 1px solid #EEE;
+        }
+
+        .card-header{
+            padding: 20px;
+            border-bottom: 1px solid #EEE;
+            margin-bottom: 20px;
+        }
+
+        .table>tbody>tr>td{
+            vertical-align: middle;
+        }
+
+        .loader {
+            position: absolute;
+            left: 0%;
+            top: 0%;
+            z-index: 1;
+            width: 30px;
+            height: 30px;
+            margin: 9px 5px 0 5px;
+            border: 3px solid #a7a7a7;
+            border-radius: 50%;
+            border-top: 3px solid #2405f0;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Add animation to "page content" */
+        .animate-bottom {
+            position: relative;
+            -webkit-animation-name: animatebottom;
+            -webkit-animation-duration: 1s;
+            animation-name: animatebottom;
+            animation-duration: 1s
+        }
+
+        @-webkit-keyframes animatebottom {
+            from {
+                bottom: -100px;
+                opacity: 0
+            }
+
+            to {
+                bottom: 0px;
+                opacity: 1
+            }
+        }
+
+        @keyframes animatebottom {
+            from {
+                bottom: -100px;
+                opacity: 0
+            }
+
+            to {
+                bottom: 0;
+                opacity: 1
+            }
+        }
+        .none{
+            display: none!important;
+        }
+
+        .d-block{
+            display: block!important;
+        }
+
+        .copy {
+            outline: 0;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .bs-invalid{
+            border: 1px solid red;
+            outline: thin dotted red;
+        }
+        .btn-group  .bs-invalid .dropdown-toggle:active{
+            border: 1px solid red;
+            outline: thin dotted red!important;
+        }
+        .btn-default.bs-invalid:active,
+        .btn-default.bs-invalid:focus{
+            border: 1px solid red;
+            outline: thin dotted red!important;
+        }
+        .header-title{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .m-30{
+            margin-left: 30px;
+        }
+        .info-strong{
+            font-weight: 600;
+            font-size: 18px;
+        }
+        .newProperty{
+            background-color: #455194!important;
+            color: #FFF!important;
+        }
+    </style>
+</head>
+
+<body class="center">
+    <div id="myDiv" class="animate-bottom" style="margin-bottom: 30px;">
+        <div id="content" class="container my-4">
+            <form action="/field-mapping-process" id="propertiesMappingForm" method="POST">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="header-title">
+                            <h3 class="wight-600">HubSpot & SUmoQuote Field Mapping</h3>
+                            <% if(step == 2 && ( reportsField.length > 0 || projectField.length > 0)) { %>
+                                <button class="btn btn-info autoCreate" type="button" onclick="autoCreate()">Auto SumoQuote Create Properties</button>
+                            <% } %>
+                            <input type="text" name="portalId" value="<%= portalId %>" hidden/>
+                        </div>
+                    </div>
+                    <div class="card-body pl-25">
+                        <div class="alert alert-warning alert-dismissible createproperties none" role="alert" style="position: relative;">
+                            <div class="loader"></div>
+                            <strong class="m-30"></strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="alert alert-info createpropertiesres none" role="alert">
+                            <li style="font-weight: 600;margin-bottom: 20px;font-size: 25px;">Properties Created And Auto Fill Description</li>
+                          </div>
+                        <% if(projectField.length > 0) { %>
+                            <div class="header-title" style="margin-bottom: 15px;">
+                                <h3 class="wight-600">HubSpot <i class="fa-solid fa-arrow-right" style="margin:0 40px"></i> SumoQuote Create Project</h3>
+                            </div>
+                            <table class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th class="th-sm p-2">SumoQuote Property Name</th>
+                                        <th class="th-sm p-2">Hubspot Deal Properties</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% for(var i=0; i < projectField.length; i++) {%>
+                                        <% if(fieldMapping) { %>
+                                            <tr>
+                                                <td class="p-2"><%= projectField[i].sumoTitle%></td>
+                                                <td class="p-2 TD_<%= projectField[i].name %>" style="position: relative;display: flex;">
+                                                    <div style="width:100%">
+                                                        <% if(step == 2) { %>
+                                                            <select class="form-control selectpicker <%= projectField[i].name %>_class" required name="fieldmapping[project][<%= projectField[i].name %>]" data-live-search="true">
+                                                            <option value="">Please Select Deal Property</option>
+                                                        <% } else {%>    
+                                                            <select class="form-control selectpicker <%= projectField[i].name %>_class" name="fieldmapping[project][<%= projectField[i].name %>]" data-live-search="true">
+                                                            <option class="newProperty" value="notMap">Create New Property</option>
+                                                        <% } %>                                                                 
+                                                            <% if(projectField[i].name === "outside_sales__os_") { %>
+                                                                <% owner.forEach(property => { %>     
+                                                                    <% if(fieldMapping.project[projectField[i].name] === property.name ) { %>
+                                                                        <option data-tokens="<%= property.label %>" value="<%= property.name %>" selected><%= property.label %></option>
+                                                                    <% } else {%>                                                                 
+                                                                        <option data-tokens="<%= property.label %>" value="<%= property.name %>"><%= property.label %></option>
+                                                                    <% } %>                     
+                                                                <% }) %>
+                                                            <% } else {%>                            
+                                                                <% properties.forEach(property => { %>       
+                                                                    <% if(fieldMapping.project[projectField[i].name] === property.name ) { %>
+                                                                        <option data-tokens="<%= property.label %>" value="<%= property.name %>" selected> <%= property.label %></option>
+                                                                    <% } else {%>                                                                 
+                                                                        <option data-tokens="<%= property.label %>" value="<%= property.name %>"><%= property.label %></option>
+                                                                    <% } %>    
+                                                                <% }) %>  
+                                                            <% } %>  
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <% } else {%>                                                                 
+                                            <tr>
+                                                <td class="p-2"><%= projectField[i].sumoTitle%></td>
+                                                <td class="p-2 TD_<%= projectField[i].name %>" style="position: relative;display: flex;">
+                                                    <div style="width:100%">
+                                                        <% if(step == 2) { %>
+                                                            <select class="form-control selectpicker <%= projectField[i].name %>_class" required name="fieldmapping[project][<%= projectField[i].name %>]" data-live-search="true">
+                                                            <option value="">Please Select Deal Property</option>
+                                                        <% } else {%>    
+                                                            <select class="form-control selectpicker <%= projectField[i].name %>_class" name="fieldmapping[project][<%= projectField[i].name %>]" data-live-search="true">
+                                                            <option class="newProperty" value="notMap">Create New Property</option>
+                                                        <% } %> 
+                                                            <% if(projectField[i].name === "outside_sales__os_") { %>
+                                                                <% owner.forEach(property => { %>
+                                                                    <% if(property.name == projectField[i].name ) { %>
+                                                                        <option data-tokens="<%= property.label %>" value="<%= property.name %>" selected="selected"><%= property.label %></option>
+                                                                    <% } else {%>                                                                 
+                                                                        <option data-tokens="<%= property.label %>" value="<%= property.name %>"><%= property.label %></option>
+                                                                    <% } %>                         
+                                                                <% }) %>
+                                                            <% } else {%>                            
+                                                                <% properties.forEach(property => { %>
+                                                                    <% if(property.name == projectField[i].name ) { %>
+                                                                        <option data-tokens="<%= property.label %>" value="<%= property.name %>" selected="selected"><%= property.label %></option>
+                                                                    <% } else {%>                                                                  
+                                                                        <option data-tokens="<%= property.label %>" value="<%= property.name %>"><%= property.label %></option>
+                                                                    <% } %> 
+                                                                <% }) %>  
+                                                            <% } %>                            
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <% } %>                                                                 
+                                    <% } %>                         
+                                </tbody>
+                            </table>
+                        <% } %>                         
+                        <% if(reportsField.length > 0) { %>
+                            <div class="header-title" style="margin-bottom: 15px;">
+                                <h3 class="wight-600">SumoQuote Report Signed <i class="fa-solid fa-arrow-right" style="margin:0 40px"></i> HubSpot</h3>
+                            </div>
+                            <table class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th class="th-sm p-2">SumoQuote Property Name</th>
+                                        <th class="th-sm p-2">Hubspot Deal Properties</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% for(var i=0; i < reportsField.length; i++) {%>
+                                        <% if(fieldMapping){ %>
+                                            <tr>
+                                                <td class="p-2"><%= reportsField[i].sumoTitle%></td>
+                                                <td class="p-2 TD_<%= reportsField[i].name %>" style="position: relative;display: flex;">
+                                                    <div style="width:100%">
+                                                        <% if(step == 2) { %>
+                                                            <select class="form-control selectpicker <%= reportsField[i].name %>_class" required name="fieldmapping[report][<%= reportsField[i].name %>]" data-live-search="true">
+                                                            <option value="">Please Select Deal Property</option>
+                                                        <% } else {%>    
+                                                            <select class="form-control selectpicker <%= reportsField[i].name %>_class" name="fieldmapping[report][<%= reportsField[i].name %>]" data-live-search="true">
+                                                            <option class="newProperty" value="notMap">Create New Property</option>
+                                                        <% } %>                                                     
+                                                            <% properties.forEach(property => { %>
+                                                                <% if(fieldMapping.report[reportsField[i].name] === property.name ) { %>
+                                                                    <option data-tokens="<%= property.label %>" value="<%= property.name %>" selected><%= property.label %></option>
+                                                                <% } else {%>                                                                 
+                                                                    <option data-tokens="<%= property.label %>" value="<%= property.name %>"><%= property.label %></option>
+                                                                <% } %>
+                                                            <% }) %>                            
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <% } else { %>
+                                            <tr>
+                                                <td class="p-2"><%= reportsField[i].sumoTitle%></td>
+                                                <td class="p-2 TD_<%= reportsField[i].name %>" style="position: relative;display: flex;">
+                                                    <div style="width:100%">
+                                                        <% if(step == 2) { %>
+                                                            <select class="form-control selectpicker <%= reportsField[i].name %>_class" required name="fieldmapping[report][<%= reportsField[i].name %>]" data-live-search="true">
+                                                            <option value="">Please Select Deal Property</option>
+                                                        <% } else {%>    
+                                                            <select class="form-control selectpicker <%= reportsField[i].name %>_class" name="fieldmapping[report][<%= reportsField[i].name %>]" data-live-search="true">
+                                                            <option class="newProperty" value="notMap">Create New Property</option>
+                                                        <% } %>                                                     
+                                                            <% properties.forEach(property => { %>
+                                                                <% if(property.name == reportsField[i].name ) { %>
+                                                                    <option data-tokens="<%= property.label %>" value="<%= property.name %>" selected="selected"><%= property.label %></option>
+                                                                <% } else {%>                                                                 
+                                                                    <option data-tokens="<%= property.label %>" value="<%= property.name %>"><%= property.label %></option>
+                                                                <% } %> 
+                                                            <% }) %>                            
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <% } %>
+                                    <% } %>                         
+                                </tbody>
+                            </table>
+                        <% } %>                         
+                    </div>
+                    <div class="card-footer text-right">
+                        <% if(reportsField.length > 0 || projectField.length > 0) { %>
+                            <% if(step == 2) { %>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            <% } else { %>
+                                <button type="submit" class="btn btn-primary">Next & Submit</button>
+                            <% } %>
+                        <% } %>                        
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <% if(step == 2) { %>
+        <script>
+            function autoCreate() {
+                let select = [];
+                $("#propertiesMappingForm .selectpicker").each(function(){
+                    select.push(this.name);
+                })
+                $('.createproperties').removeClass('none');
+                $('.createproperties').addClass('show');
+                $('.createproperties strong').text("Creating properties process is in progress...."); 
+                $('.card-footer').addClass('none');
+                $('.autoCreate').addClass('none');                       
+                event.preventDefault()
+                $.ajax({
+                    url: "/auto-create-properties?portalId=<%= portalId%>",
+                    cache: false,
+                    type:"POST",
+                    data : $('#propertiesMappingForm').serialize(),
+                    success: function(result){
+                        $('.createproperties .loader').remove();
+                        $('.createproperties').removeClass('alert-warning');
+                        $('.createproperties').addClass('alert-success');
+                        $('.createproperties strong').removeClass('m-30');
+                        $('.createpropertiesres').removeClass('none');
+                        $('.table').addClass('none');        
+                        $('.card-body .header-title').addClass('none');                                         
+                        result.properties.forEach(property => {
+                            let para = document.createElement("div");
+                            para.innerHTML = property;
+                            para.classList = 'info-strong';
+                            $('.createpropertiesres').append(para);
+                        });
+                        $('.createproperties strong').text(result.message); 
+                        setTimeout(function () {
+                            window.location.href = result.url
+                        }, 5000);
+                        
+                    },
+                    error:function(error){
+                        console.log(error);
+                    }
+                });
+            }
+            
+        </script>
+    <% } %>
+    <% if(reportsField.length <= 0 && projectField.length <= 0) { %>
+        <script>
+            $( document ).ready(function() {
+                window.location.href = "<%= returnUrl %>"
+            })
+        </script>
+    <% } %>
+    
+</body>
+</html>
