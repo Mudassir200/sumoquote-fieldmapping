@@ -525,6 +525,13 @@ app.get("/webhook/report", async (req, res) => {
           });
         }else{
           return res.json({
+            settingsAction: {
+              type: "IFRAME",
+              width: 890,
+              height: 748,
+              uri: `${HOST}/hubspot/settings?deal=${associatedObjectId}&portal=${user.hubspotPortalId}&userId=${user._id}`,
+              label: "Settings"
+            },
             primaryAction: {
               type: "IFRAME",
               width: 1000,
