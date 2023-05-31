@@ -1270,9 +1270,9 @@ app.post("/field-mapping-process", async (req, res) => {
       user.fieldMapping = JSON.stringify(req.body.fieldmapping);
     }
     user.fieldMappingActive = true;
+    req.session.success = 1
     await user.save();
-    req.session.success = 1;
-    return res.redirect(`/field-mapping?portalId=${portalId}`);
+    return res.redirect(`/field-mapping?portalId=${portalId}&success=1`);
   }else{
     if (user.fieldMapping !== undefined && user.fieldMapping !== "") {
       let mapdata = {project:{},report:{}}
@@ -1305,7 +1305,7 @@ app.use("/field-mapping", async (req, res) => {
   let portalId = req.query.portalId;
   let step = req.query.step !== undefined ? req.query.step : 1;
   let success = false;
-  if(req.session?.success !== undefined && req.session.success == 1 ){
+  if(req.query.success !== undefined && req.query.success == 1 && req.session?.success == 1){
     success =true;
     req.session.success = 0
   }
@@ -1382,7 +1382,7 @@ exports.getProperties = async (HStoken,object) => {
 
 app.use("/public", express.static(require("path").join(__dirname, "public")));
 
-app.listen(PORT, () => console.log(`Listening on http://${HOST}:${PORT}`));
+app.listen(PORT, () => console.log(`Listening on ${HOST}`));
 
 errorHandler();
 function errorHandler() {
