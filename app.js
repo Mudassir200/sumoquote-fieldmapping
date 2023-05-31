@@ -351,7 +351,7 @@ app.get("/webhook/report", async (req, res) => {
     let Addtime = new Date(new Date(dealobjectData.createdAt).getTime() + 2 * 60000).toLocaleString('en-AU', { timeZone: 'UTC' });
     let currenttime = new Date().toLocaleString('en-AU', { timeZone: 'UTC' });
 
-    if (user.sumoquoteRefreshToken || MODE !== "production") {
+    if (user.sumoquoteRefreshToken || (MODE === "development" && user.sumoquoteAPIKEY)) {
       const token = await getSumoquoteAccessToken(user);
       const config = {
         method: "get",
