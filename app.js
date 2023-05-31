@@ -1382,7 +1382,7 @@ exports.getProperties = async (HStoken,object) => {
 
 app.use("/public", express.static(require("path").join(__dirname, "public")));
 
-app.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Listening on http://${HOST}:${PORT}`));
 
 errorHandler();
 function errorHandler() {
