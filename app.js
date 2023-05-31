@@ -1231,7 +1231,7 @@ app.post("/auto-create-properties", async (req, res) => {
   return res.status(400).json({message:"Portal Id Not Found"})  
 });
 
-app.post("/field-mapping-process", async (req, res) => {
+app.post("/field-mapping", async (req, res) => {
   let portalId = req.body.portalId;
   let notCreate = { projectField : [], reportsField : [] };
   for (const projectKey in req.body.fieldmapping.project) {
@@ -1277,9 +1277,11 @@ app.post("/field-mapping-process", async (req, res) => {
       user.fieldMapping = JSON.stringify(req.body.fieldmapping);
     }
     user.fieldMappingActive = true;
-    req.session.success = 1
     await user.save();
-    return res.redirect(`/field-mapping?portalId=${portalId}&success=1`);
+
+    let resData = await fieldmapping(portalId,1,true);
+    return res.render("pages/fieldmapping",{ ...resData});
+
   }else{
     if (user.fieldMapping !== undefined && user.fieldMapping !== "") {
       let mapdata = {project:{},report:{}}
@@ -1308,17 +1310,20 @@ app.post("/field-mapping-process", async (req, res) => {
 
 
 
-app.use("/field-mapping", async (req, res) => {
+app.get("/field-mapping", async (req, res) => {
   let portalId = req.query.portalId;
   let step = req.query.step !== undefined ? req.query.step : 1;
   let success = false;
-  if(req.query.success !== undefined && req.query.success == 1 && req.session?.success == 1){
-    success =true;
-    req.session.success = 0
-  }
+
+  let resData = await fieldmapping(portalId,step,success);
+
+  res.render("pages/fieldmapping",{ ...resData});
+});
+
+async function fieldmapping(portalId,step,success) {
   let user = await User.findOne({ hubspotPortalId: portalId });
   const HStoken = await getHubspotAccessToken(user);
-  let propertiesData = await this.getProperties(HStoken,'deal');
+  let propertiesData = await getProperties(HStoken,'deal');
 
   let owner = [];
   let properties = [];
@@ -1358,7 +1363,7 @@ app.use("/field-mapping", async (req, res) => {
   }
 
   let create = step == 2 ? {...notCreate} : {...fields};
-  res.render("pages/fieldmapping",{ ...create,
+  return { ...create,
     properties,
     fieldMapping,
     owner,
@@ -1366,10 +1371,10 @@ app.use("/field-mapping", async (req, res) => {
     step,
     success,
     returnUrl:`/field-mapping?portalId=${portalId}`
-  });
-});
+  };
+}
 
-exports.getProperties = async (HStoken,object) => {
+async function getProperties (HStoken,object) {
   try {
     let config = {
       method: "get",
