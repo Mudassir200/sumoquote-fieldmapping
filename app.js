@@ -399,7 +399,7 @@ app.get("/webhook/report", async (req, res) => {
                 //   "type": "IFRAME",
                 //   "width": 890,
                 //   "height": 748,
-                //   "uri": `https://sumo-hubspot-server.herokuapp.com/hubspot/more?projectId=${data.ProjectIdDisplay}&reportId=${data.Id}&portalId=${req.query.portalId}`,
+                //   "uri": `${HOST}/hubspot/more?projectId=${data.ProjectIdDisplay}&reportId=${data.Id}&portalId=${req.query.portalId}`,
                 //   "label": "More",
                 //   "associatedObjectProperties": []
                 // }
@@ -408,7 +408,7 @@ app.get("/webhook/report", async (req, res) => {
                   type: "IFRAME",
                   width: 0,
                   height: 0,
-                  uri: `https://sumo-hubspot-server.herokuapp.com/hubspot/download?projectId=${projectObject.Id}&reportId=${data.Id}&portalId=${user.hubspotPortalId}`,
+                  uri: `${HOST}/hubspot/download?projectId=${projectObject.Id}&reportId=${data.Id}&portalId=${user.hubspotPortalId}`,
                   label: "Download",
                   associatedObjectProperties: []
                 }
@@ -494,7 +494,7 @@ app.get("/webhook/report", async (req, res) => {
             type: "IFRAME",
             width: 890,
             height: 748,
-            uri: `https://sumo-hubspot-server.herokuapp.com/hubspot/settings?deal=${associatedObjectId}&portal=${user.hubspotPortalId}&userId=${user._id}`,
+            uri: `${HOST}/hubspot/settings?deal=${associatedObjectId}&portal=${user.hubspotPortalId}&userId=${user._id}`,
             label: "Settings"
           },
           primaryAction: {
@@ -513,7 +513,7 @@ app.get("/webhook/report", async (req, res) => {
               type: "IFRAME",
               width: 1000,
               height: 850,
-              uri: `https://sumo-hubspot-server.herokuapp.com/terms`,
+              uri: `${HOST}/terms`,
               label: "Create Project"
             },
             secondaryAction: []
@@ -524,7 +524,7 @@ app.get("/webhook/report", async (req, res) => {
               type: "IFRAME",
               width: 1000,
               height: 850,
-              uri: `https://sumo-hubspot-server.herokuapp.com/sumoquote/create-deal?deal=${associatedObjectId}&portal=${user.hubspotPortalId}&userId=${user._id}`,
+              uri: `${HOST}/sumoquote/create-deal?deal=${associatedObjectId}&portal=${user.hubspotPortalId}&userId=${user._id}`,
               label: "Create Project"
             },
             secondaryAction: []
