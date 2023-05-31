@@ -1121,9 +1121,14 @@ app.post("/auto-create-properties", async (req, res) => {
     let createPropertiesRes = {project:{},report:{}};
     let user = await User.findOne({ hubspotPortalId: req.query.portalId });
     const HStoken = await getHubspotAccessToken(user);
-    let fieldmappingOld = JSON.parse(user.fieldMapping);
     let propertiesData = await this.getProperties(HStoken,'deal');
 
+    let fieldMappingOld = {project:{},report:{}};
+    if (user.fieldMappingActive) {
+      fieldMappingOld = JSON.parse(user.fieldMapping);
+    }
+
+    
     if (req.body.fieldmapping.hasOwnProperty("project")) {
       for (const projectKey in req.body.fieldmapping.project) {
         let exist = true;
