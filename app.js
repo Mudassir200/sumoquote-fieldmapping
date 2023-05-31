@@ -15,7 +15,7 @@ const {
 } = require("./utils/utils");
 const routes = require("./routes");
 const db = require("./db/index");
-const { getUserCredentialsWithHubPortalId } = require("./utils/helper");
+const { getUserCredentialsWithHubPortalId, sumoApiKeyHeader } = require("./utils/helper");
 dotenv.config();
 const app = express();
 db();
@@ -82,6 +82,7 @@ const SUMO_CLIENT_ID = process.env.SUMO_CLIENT_ID;
 const SUMO_CLIENT_SECRET = process.env.SUMO_CLIENT_SECRET;
 const SUMO_REDIRECT_URI = process.env.SUMO_REDIRECT_URI;
 const HOST = process.env.HOST;
+const MODE = process.env.MODE;
 
 let tokenStore = {};
 
@@ -121,6 +122,11 @@ const refreshHubSpotAccess = async user => {
 };
 
 const refreshSumoQuoteAccess = async user => {
+  if(MODE !== "production"){
+    if(user.sumoquoteAPIKEY && user.sumoquoteAPIKEY !== "" && user.sumoquoteAPIKEY !== undefined){
+      return user.sumoquoteAPIKEY
+    }
+  }
   let data = {
     grant_type: "refresh_token",
     client_id: SUMO_CLIENT_ID,
@@ -159,6 +165,11 @@ const getHubspotAccessToken = async creds => {
 };
 
 const getSumoquoteAccessToken = async creds => {
+  if(MODE !== "production"){
+    if(creds.sumoquoteAPIKEY && creds.sumoquoteAPIKEY !== "" && creds.sumoquoteAPIKEY !== undefined){
+      return creds.sumoquoteAPIKEY
+    }
+  }
   const tokenExpired = isTokenExpired(creds.sumoquoteTokenExpiry);
   if (tokenExpired) {
     return await refreshSumoQuoteAccess(creds);
@@ -222,8 +233,7 @@ app.get("/disconnect-sumoquote", async (req, res) => {
       let data2 = JSON.stringify([
         {
           hookEvent: "Report_Signed",
-          hookUrl: `${process.env
-            .HOST}/webhook/signatory-signed/${user.sumoquoteWebhookId}`,
+          hookUrl: `${HOST}/webhook/signatory-signed/${user.sumoquoteWebhookId}`,
           isZapHook: false
         }
       ]);
@@ -231,10 +241,7 @@ app.get("/disconnect-sumoquote", async (req, res) => {
       let config2 = {
         method: "delete",
         url: "https://api.sumoquote.com/v1/WebHook/batch",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json"
-        },
+        headers: await sumoApiKeyHeader(token,"application/json"),
         data: data2
       };
       try {
@@ -255,6 +262,8 @@ app.get("/disconnect-sumoquote", async (req, res) => {
     return res.json("an error occurred");
   }
 });
+
+
 
 app.use("/oauth", async (req, res) => {
   console.log(req.query);
@@ -340,15 +349,12 @@ app.get("/webhook/report", async (req, res) => {
     let Addtime = new Date(new Date(dealobjectData.createdAt).getTime() + 2 * 60000).toLocaleString('en-AU', { timeZone: 'UTC' });
     let currenttime = new Date().toLocaleString('en-AU', { timeZone: 'UTC' });
 
-    if (user.sumoquoteRefreshToken) {
+    if (user.sumoquoteRefreshToken || MODE !== "production") {
       const token = await getSumoquoteAccessToken(user);
       const config = {
         method: "get",
         url: `https://api.sumoquote.com/v1/Project/?q=${associatedObjectId}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json"
-        }
+        headers: await sumoApiKeyHeader(token,"application/json")
       };
 
       const { data } = await axios(config);
@@ -360,10 +366,7 @@ app.get("/webhook/report", async (req, res) => {
         const config2 = {
           method: "get",
           url: `https://api.sumoquote.com/v1/Project/${projectObject.Id}/report`,
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          }
+          headers: await sumoApiKeyHeader(token,"application/json")
         };
         console.log("MetaData");
         console.log(data.Data.MetaData);
@@ -590,10 +593,7 @@ app.use("/webhook/signatory-signed/:sumoquoteWebhookId", async (req, res) => {
     let config = {
       method: "get",
       url: `https://api.sumoquote.com/v1/Project/${projectId}`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
-      }
+      headers: await sumoApiKeyHeader(token,"application/json")
     };
 
     let { data: { Data: projectdetails } } = await axios(config);
@@ -728,8 +728,7 @@ app.use("/callback/sumoquote", async (req, res) => {
       let data2 = JSON.stringify([
         {
           hookEvent: "Report_Signed",
-          hookUrl: `${process.env
-            .HOST}/webhook/signatory-signed/${user.sumoquoteWebhookId}`,
+          hookUrl: `${HOST}/webhook/signatory-signed/${user.sumoquoteWebhookId}`,
           isZapHook: false
         }
       ]);

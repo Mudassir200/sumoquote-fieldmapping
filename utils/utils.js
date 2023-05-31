@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { User } = require('../model');
-const { getUserCredentialsWithHubPortalId, getSumoquoteAccessToken, getSumoApiKey } = require('./helper')
+const { getUserCredentialsWithHubPortalId, getSumoquoteAccessToken, getSumoApiKey, sumoApiKeyHeader } = require('./helper')
 const { json } = require("express");
 
 function sumoUpdater() {
@@ -130,10 +130,7 @@ async function createDeal(req, res) {
                 let config = {
                     method: 'post',
                     url: `https://api.sumoquote.com/v1/Project`,
-                    headers: {
-                        Authorization: `Bearer ${sumoToken}`,
-                        'Content-Type': 'application/json'
-                    },
+                    headers: await sumoApiKeyHeader(sumoToken,"application/json"),
                     data: newSumoUpdate
                 };
 
@@ -197,10 +194,7 @@ async function updateDeal(req, res) {
         let option = {
             method: 'get',
             url: `https://api.sumoquote.com/v1/Project/?q=${obj}`,
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
+            headers: await sumoApiKeyHeader(token,"application/json")
         };
 
         const { data: { Data } } = await axios(option);
@@ -551,11 +545,7 @@ async function syncDealToProject(deal, portal) {
         let dealConfig = {
             method: 'get',
             url: `https://api.hubapi.com/crm/v3/objects/deals/${deal}${properties}`,
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json'
-
-            }
+            headers: await sumoApiKeyHeader(sumoToken,"application/json")
         };
 
         const { data:objectData } = await axios(dealConfig)
@@ -735,10 +725,7 @@ async function sumoquoteCreateProject(deal, portal) {
             let config = {
                 method: 'post',
                 url: `https://api.sumoquote.com/v1/Project`,
-                headers: {
-                    Authorization: `Bearer ${sumoToken}`,
-                    'Content-Type': 'application/json'
-                },
+                headers: await sumoApiKeyHeader(sumoToken,"application/json"),
                 data: newSumoUpdate
             };
 
