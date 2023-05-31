@@ -745,10 +745,7 @@ app.use("/callback/sumoquote", async (req, res) => {
       let config2 = {
         method: "delete",
         url: "https://api.sumoquote.com/v1/WebHook/batch",
-        headers: {
-          Authorization: `Bearer ${dat.access_token}`,
-          "Content-Type": "application/json"
-        },
+        headers: await sumoApiKeyHeader(dat.access_token,"application/json"),
         data: data2
       };
       try {
@@ -771,10 +768,7 @@ app.use("/callback/sumoquote", async (req, res) => {
     let config2 = {
       method: "post",
       url: "https://api.sumoquote.com/v1/WebHook/batch",
-      headers: {
-        Authorization: `Bearer ${dat.access_token}`,
-        "Content-Type": "application/json"
-      },
+      headers: await sumoApiKeyHeader(dat.access_token,"application/json"),
       data: data2
     };
 
@@ -1414,10 +1408,7 @@ exports.reportUrl = async (projectId, reportId, token) => {
     let downloadUrlConfig = {
       method: "get",
       url: `https://api.sumoquote.com/v1/Project/${projectId}/Report/${reportId}/download`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
-      }
+      headers: await sumoApiKeyHeader(token,"application/json")
     };
 
     const { data: { Data: { FileUrl } } } = await axios(downloadUrlConfig);

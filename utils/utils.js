@@ -226,10 +226,7 @@ async function updateDeal(req, res) {
         let config = {
             method: 'put',
             url: `https://api.sumoquote.com/v1/Project/${projectId}`,
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
+            headers: await sumoApiKeyHeader(token,"application/json"),
             data: newSumoUpdate
         };
         result = await axios(config);
@@ -408,10 +405,7 @@ async function uploadPDFtoHubspot({ productPayload, hbtoken, smtoken, smProjectI
         let config = {
             method: 'get',
             url: `https://api.sumoquote.com/v1/Project/${smProjectId}/Report/${parseInt(smReportId)}/download`,
-            headers: {
-                Authorization: `Bearer ${smtoken}`,
-                'Content-Type': 'application/json'
-            },
+            headers: await sumoApiKeyHeader(smtoken,"application/json"),
         };
 
         console.log('fileDownload')
@@ -545,7 +539,10 @@ async function syncDealToProject(deal, portal) {
         let dealConfig = {
             method: 'get',
             url: `https://api.hubapi.com/crm/v3/objects/deals/${deal}${properties}`,
-            headers: await sumoApiKeyHeader(sumoToken,"application/json")
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
         };
 
         const { data:objectData } = await axios(dealConfig)
@@ -599,10 +596,7 @@ async function syncDealToProject(deal, portal) {
             let config = {
                 method: 'get',
                 url: `https://api.sumoquote.com/v1/Project?q=${deal}`,
-                headers: {
-                    Authorization: `Bearer ${sumoToken}`,
-                    'Content-Type': 'application/json'
-                }
+                headers: await sumoApiKeyHeader(sumoToken,"application/json")
             };
 
             const { data : { Data } }  = await axios(config);
@@ -614,10 +608,7 @@ async function syncDealToProject(deal, portal) {
                 const config = {
                     method: 'put',
                     url: 'https://api.sumoquote.com/v1/Project/' + Data[0].Id,
-                    headers: {
-                        Authorization: `Bearer ${sumoToken}`,
-                        'Content-Type': 'application/json'
-                    },
+                    headers: await sumoApiKeyHeader(sumoToken,"application/json"),
                     data: JSON.stringify(newSumoUpdate)
                 };
                 let {data} = await axios(config);
