@@ -312,9 +312,17 @@
                             <div class="loader"></div>
                             <strong class="m-30"></strong>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
+                                <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
+                        <% if(success === true) { %>
+                            <div class="alert alert-success alert-dismissible show" role="alert" style="position: relative;">
+                                <strong >SumoQuote Field Mapping Successfully...</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        <% } %>
                         <div class="alert alert-info createpropertiesres none" role="alert">
                             <li style="font-weight: 600;margin-bottom: 20px;font-size: 25px;">Properties Created And Auto Fill Description</li>
                           </div>

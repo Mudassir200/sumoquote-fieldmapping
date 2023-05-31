@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const axios = require("axios");
 const qs = require("qs");
 const Hubspot = require("hubspot");
+const session = require('express-session');
 const { sumTiers, getTierItemDetails } = require("./compare");
 const { User } = require("./model");
 const {
@@ -26,6 +27,7 @@ app.set("view engine", "ejs");
 // app.use(express.json())
 app.use(express.urlencoded({ limit: "256mb", extended: true }));
 app.use(express.json({ limit: "256mb" }));
+app.use(session({secret: 'mySecret', resave: false, saveUninitialized: false}));
 
 function reportStatus(sent, signed) {
   if (sent && signed) {
@@ -1123,7 +1125,7 @@ app.post("/auto-create-properties", async (req, res) => {
     let propertiesData = await this.getProperties(HStoken,'deal');
 
     let fieldmappingOld = {project:{},report:{}};
-    if (user.fieldMappingActive) {
+    if (user.fieldMappingActive || user.fieldMapping !== undefined) {
       fieldmappingOld = JSON.parse(user.fieldMapping);
     }
 
@@ -1243,7 +1245,7 @@ app.post("/field-mapping-process", async (req, res) => {
   let user = await User.findOne({ hubspotPortalId: portalId });
 
   let fieldMappingOld = {project:{},report:{}};
-  if (user.fieldMappingActive) {
+  if (user.fieldMappingActive || user.fieldMapping !== undefined) {
     fieldMappingOld = JSON.parse(user.fieldMapping);
   }
 
@@ -1269,6 +1271,7 @@ app.post("/field-mapping-process", async (req, res) => {
     }
     user.fieldMappingActive = true;
     await user.save();
+    req.session.success = 1;
     return res.redirect(`/field-mapping?portalId=${portalId}`);
   }else{
     if (user.fieldMapping !== undefined && user.fieldMapping !== "") {
@@ -1301,6 +1304,11 @@ app.post("/field-mapping-process", async (req, res) => {
 app.use("/field-mapping", async (req, res) => {
   let portalId = req.query.portalId;
   let step = req.query.step !== undefined ? req.query.step : 1;
+  let success = false;
+  if(req.session?.success !== undefined && req.session.success == 1 ){
+    success =true;
+    req.session.success = 0
+  }
   let user = await User.findOne({ hubspotPortalId: portalId });
   const HStoken = await getHubspotAccessToken(user);
   let propertiesData = await this.getProperties(HStoken,'deal');
@@ -1349,6 +1357,7 @@ app.use("/field-mapping", async (req, res) => {
     owner,
     portalId,
     step,
+    success,
     returnUrl:`/field-mapping?portalId=${portalId}`
   });
 });
