@@ -1123,9 +1123,9 @@ app.post("/auto-create-properties", async (req, res) => {
     const HStoken = await getHubspotAccessToken(user);
     let propertiesData = await this.getProperties(HStoken,'deal');
 
-    let fieldMappingOld = {project:{},report:{}};
+    let fieldmappingOld = {project:{},report:{}};
     if (user.fieldMappingActive) {
-      fieldMappingOld = JSON.parse(user.fieldMapping);
+      fieldmappingOld = JSON.parse(user.fieldMapping);
     }
 
     
