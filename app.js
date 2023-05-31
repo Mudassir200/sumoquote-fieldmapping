@@ -1237,7 +1237,12 @@ app.post("/field-mapping-process", async (req, res) => {
   }
 
   let user = await User.findOne({ hubspotPortalId: portalId });
-  let fieldMappingOld = JSON.parse(user.fieldMapping);
+
+  let fieldMappingOld = {project:{},report:{}};
+  if (user.fieldMappingActive) {
+    fieldMappingOld = JSON.parse(user.fieldMapping);
+  }
+
   if (notCreate.projectField.length === 0 && notCreate.reportsField.length === 0) {
     if (user.fieldMapping !== undefined && user.fieldMapping !== "") {
       let mapdata = {project:{},report:{}}
