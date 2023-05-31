@@ -722,6 +722,8 @@ async function sumoquoteCreateProject(deal, portal) {
                 newSumoUpdate["projectIntegration"] = projectIntegration;
             }
 
+            console.log('newSumoUpdate Req Data :- ',newSumoUpdate);
+
             let config = {
                 method: 'post',
                 url: `https://api.sumoquote.com/v1/Project`,
