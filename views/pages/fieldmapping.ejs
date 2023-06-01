@@ -290,6 +290,9 @@
             background-color: #455194!important;
             color: #FFF!important;
         }
+        td:first-child{
+            width: 40%;
+        }
     </style>
 </head>
 
@@ -342,7 +345,7 @@
                                         <% if(fieldMapping) { %>
                                             <tr>
                                                 <td class="p-2"><%= projectField[i].sumoTitle%></td>
-                                                <td class="p-2 TD_<%= projectField[i].name %>" style="position: relative;display: flex;">
+                                                <td class="p-2 TD_<%= projectField[i].name %>">
                                                     <div style="width:100%">
                                                         <% if(step == 2) { %>
                                                             <select class="form-control selectpicker <%= projectField[i].name %>_class" required name="fieldmapping[project][<%= projectField[i].name %>]" data-live-search="true">
@@ -375,7 +378,7 @@
                                         <% } else {%>                                                                 
                                             <tr>
                                                 <td class="p-2"><%= projectField[i].sumoTitle%></td>
-                                                <td class="p-2 TD_<%= projectField[i].name %>" style="position: relative;display: flex;">
+                                                <td class="p-2 TD_<%= projectField[i].name %>">
                                                     <div style="width:100%">
                                                         <% if(step == 2) { %>
                                                             <select class="form-control selectpicker <%= projectField[i].name %>_class" required name="fieldmapping[project][<%= projectField[i].name %>]" data-live-search="true">
@@ -426,7 +429,7 @@
                                         <% if(fieldMapping){ %>
                                             <tr>
                                                 <td class="p-2"><%= reportsField[i].sumoTitle%></td>
-                                                <td class="p-2 TD_<%= reportsField[i].name %>" style="position: relative;display: flex;">
+                                                <td class="p-2 TD_<%= reportsField[i].name %>">
                                                     <div style="width:100%">
                                                         <% if(step == 2) { %>
                                                             <select class="form-control selectpicker <%= reportsField[i].name %>_class" required name="fieldmapping[report][<%= reportsField[i].name %>]" data-live-search="true">
@@ -449,7 +452,7 @@
                                         <% } else { %>
                                             <tr>
                                                 <td class="p-2"><%= reportsField[i].sumoTitle%></td>
-                                                <td class="p-2 TD_<%= reportsField[i].name %>" style="position: relative;display: flex;">
+                                                <td class="p-2 TD_<%= reportsField[i].name %>">
                                                     <div style="width:100%">
                                                         <% if(step == 2) { %>
                                                             <select class="form-control selectpicker <%= reportsField[i].name %>_class" required name="fieldmapping[report][<%= reportsField[i].name %>]" data-live-search="true">
