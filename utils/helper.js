@@ -7,6 +7,8 @@ const CLIENT_SECRET = process.env.HUBSPOT_CLIENT_SECRET;
 const SUMO_CLIENT_ID = process.env.SUMO_CLIENT_ID;
 const SUMO_CLIENT_SECRET = process.env.SUMO_CLIENT_SECRET
 const MODE = process.env.MODE
+const SUMO_API_KEY = process.env.SUMO_API_KEY;
+
 
 const isTokenExpired = (date) => {
   return date < new Date();
@@ -55,10 +57,8 @@ const refreshHubSpotAccess = async (user) => {
 }
 
 const refreshSumoQuoteAccess = async (user) => {
-  if(MODE !== "production"){
-    if(user.sumoquoteAPIKEY && user.sumoquoteAPIKEY !== "" && user.sumoquoteAPIKEY !== undefined){
-      return user.sumoquoteAPIKEY
-    }
+  if(MODE === "development"){
+      return SUMO_API_KEY
   }
   console.log('refreshSumoQuoteAccess', user.sumoquoteRefreshToken, user._id);
   let data = ({
@@ -110,10 +110,8 @@ async function getUserCredentialsWithHubPortalId(portalId) {
 }
 
 const getSumoquoteAccessToken = async (creds) => {
-  if(MODE !== "production"){
-    if(creds.sumoquoteAPIKEY && creds.sumoquoteAPIKEY !== "" && creds.sumoquoteAPIKEY !== undefined){
-      return creds.sumoquoteAPIKEY
-    }
+  if(MODE === "development"){
+      return SUMO_API_KEY
   }
   const tokenExpired = isTokenExpired(creds.sumoquoteTokenExpiry);
   if (true || tokenExpired) {
@@ -131,9 +129,9 @@ async function getSumoApiKey(portalId) {
 }
 
 async function sumoApiKeyHeader(token,type){
-  if (MODE !== "production") {
+  if (MODE === "development") {
       return {
-          'sq-api-key': `${token}`,
+          'sq-api-key': `${SUMO_API_KEY}`,
           'Content-Type': type
       }
   } 

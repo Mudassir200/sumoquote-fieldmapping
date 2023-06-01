@@ -85,6 +85,7 @@ const SUMO_CLIENT_SECRET = process.env.SUMO_CLIENT_SECRET;
 const SUMO_REDIRECT_URI = process.env.SUMO_REDIRECT_URI;
 const HOST = process.env.HOST;
 const MODE = process.env.MODE;
+const SUMO_API_KEY = process.env.SUMO_API_KEY;
 
 let tokenStore = {};
 
@@ -124,10 +125,8 @@ const refreshHubSpotAccess = async user => {
 };
 
 const refreshSumoQuoteAccess = async user => {
-  if(MODE !== "production"){
-    if(user.sumoquoteAPIKEY && user.sumoquoteAPIKEY !== "" && user.sumoquoteAPIKEY !== undefined){
-      return user.sumoquoteAPIKEY
-    }
+  if(MODE === "development"){
+      return SUMO_API_KEY
   }
   let data = {
     grant_type: "refresh_token",
@@ -167,10 +166,8 @@ const getHubspotAccessToken = async creds => {
 };
 
 const getSumoquoteAccessToken = async creds => {
-  if(MODE !== "production"){
-    if(creds.sumoquoteAPIKEY && creds.sumoquoteAPIKEY !== "" && creds.sumoquoteAPIKEY !== undefined){
-      return creds.sumoquoteAPIKEY
-    }
+  if(MODE === "development"){
+    return SUMO_API_KEY
   }
   const tokenExpired = isTokenExpired(creds.sumoquoteTokenExpiry);
   if (tokenExpired) {
@@ -351,7 +348,7 @@ app.get("/webhook/report", async (req, res) => {
     let Addtime = new Date(new Date(dealobjectData.createdAt).getTime() + 2 * 60000).toLocaleString('en-AU', { timeZone: 'UTC' });
     let currenttime = new Date().toLocaleString('en-AU', { timeZone: 'UTC' });
 
-    if (user.sumoquoteRefreshToken || (MODE === "development" && user.sumoquoteAPIKEY)) {
+    if (user.sumoquoteRefreshToken || MODE === "development") {
       const token = await getSumoquoteAccessToken(user);
       const config = {
         method: "get",
@@ -1123,7 +1120,7 @@ app.post("/auto-create-properties", async (req, res) => {
     let createPropertiesRes = {project:{},report:{}};
     let user = await User.findOne({ hubspotPortalId: req.query.portalId });
     const HStoken = await getHubspotAccessToken(user);
-    let propertiesData = await this.getProperties(HStoken,'deal');
+    let propertiesData = await getProperties(HStoken,'deal');
 
     let fieldmappingOld = {project:{},report:{}};
     if (user.fieldMappingActive || user.fieldMapping !== undefined) {
