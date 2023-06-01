@@ -1192,6 +1192,7 @@ app.post("/auto-create-properties", async (req, res) => {
             data.results.forEach(element => {
               if (projectKey === element.name) {
                 fieldmappingOld.project[projectKey] = element.name;
+                createdPropertiesRes.push(`${element.label} <i class="fa-solid fa-arrow-right" style="margin:0 40px"></i> HubSpot Deal Properties -> ${element.label}`)
               }  
             });
           }
