@@ -52,7 +52,7 @@ async function createDeal(req, res) {
             }
 
             console.log("sleep 40 sec start :- ",new Date());
-            await sleep(40000);
+            await sleep(30000);
             console.log("sleep 40 sec end :- ",new Date());
 
             let dealConfig = {
